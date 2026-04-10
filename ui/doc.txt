@@ -1,0 +1,3562 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Документация по API Dentist-plus для партнеров",
+    "description": "С каждым запросом должен передаваться \u003Ccode\u003Ebearer token\u003C/code\u003E в заголовке (\u003Ccode\u003EAuthorization: Bearer {token}\u003C/code\u003E). Чтобы получить \u003Ccode\u003Ebearer token\u003C/code\u003E, нужно запустить функцию авторизации, используя логин и пароль, полученные от менеджера Dentist plus. Обратите внимание, что у токена есть срок действия, по истечении токена, необходимо пройти авторизацию снова.",
+    "contact": {
+      "email": "hello@spaceduck.kz"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api2.dentist-plus.com/partner",
+      "description": "Develop API Server"
+    },
+    {
+      "url": "https://api2.dentist-plus.com/partner",
+      "description": "Production API Server"
+    }
+  ],
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "Авторизация / получение токена",
+        "operationId": "c1219ebce4ab21eafeee9f20626d74c4",
+        "tags": [
+          "Авторизация"
+        ],
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "login": {
+                    "type": "string",
+                    "example": "APILogin"
+                  },
+                  "pass": {
+                    "type": "string",
+                    "example": "qwerty123"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "42pXPE0jFxLWgdFGFoMk7WQi3NdjevaN9AxEFsBMlHiT1nR5v1a3Ef5pGd5hgzPQ"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "example": "2023-05-21T13:38:48.290765Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Логин или пароль неверны",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/branches": {
+      "get": {
+        "summary": "Получение списка филиалов",
+        "operationId": "c1219ebce4cd24eafdee9f20786d74c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "required": false,
+            "example": 2,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Branch"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chairs": {
+      "get": {
+        "summary": "Получение списка кресел",
+        "operationId": "c1841ebaa4cd24aafaee9f20786d74c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "required": false,
+            "example": 2,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Chair"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "Получение списка услуг",
+        "operationId": "c1841ebaa4bb44bbfbee9f20786d74c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные услуги",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Service"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/diagnoses": {
+      "get": {
+        "summary": "Получение списка диагнозов",
+        "operationId": "c1841eaaa4ba14b8fbee8f2a78b474c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ToothDiagnose"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teeth": {
+      "get": {
+        "summary": "Получение списка зубов",
+        "operationId": "2a26be0aa4ba14b84bee4f4a78b474c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "11"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prices": {
+      "get": {
+        "summary": "Получение списка прайсов",
+        "operationId": "c184144ec4b9d15aabbf9f20786d74c6",
+        "tags": [
+          "Словари"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Price"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sources": {
+      "get": {
+        "summary": "Получение списка источников пациента",
+        "operationId": "c1123ebce2cd42effdce9f207b6d74b6",
+        "tags": [
+          "Словари"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/professions": {
+      "get": {
+        "summary": "Получение списка профессий врачей",
+        "operationId": "1ebd31ace2c8a2efa8ce9c22cb6d44b6",
+        "tags": [
+          "Словари"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Profession"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deposit_accounts": {
+      "get": {
+        "summary": "Получение списка типов депозитных счетов",
+        "operationId": "c11c9eb5e2cd71edadce9f207bed74be",
+        "tags": [
+          "Словари"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepositAccount"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment_forms": {
+      "get": {
+        "summary": "Получение списка методов оплаты",
+        "operationId": "c11c4ca5ddc871edadce9f207bed74be",
+        "tags": [
+          "Словари"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PayMethod"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/record_statuses": {
+      "get": {
+        "summary": "Получение списка статусов визита",
+        "operationId": "c4454efce2ff4fa24dce2d207b6d74b6",
+        "tags": [
+          "Словари"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecordStatus"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients": {
+      "get": {
+        "summary": "Получение списка пациентов",
+        "operationId": "c1219ebce4ab21eafeee9f20786d74c6",
+        "tags": [
+          "Пациенты"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Поиск (по имени / фамилии / телефону)",
+            "example": "антон",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_field",
+            "in": "query",
+            "description": "Сортировка по полю (доступные значения: id / fname / lname / card / email)",
+            "example": "lname",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort_order",
+            "in": "query",
+            "description": "Сортировка по возрастающей / убывающей (доступные значения: asc / desc)",
+            "example": "asc",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modified_after",
+            "in": "query",
+            "description": "Условие выдачи только тех пациентов, данные по которым обновлены после указанной даты (часовой пояс клиники)",
+            "example": "2023-04-16 12:30:00",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Id запрашиваемых пациентов, через запятую",
+            "example": "1,2,3",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные пользователи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Patient"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Создание пациента",
+        "operationId": "c1219eaaaaaba1eb3eee3320786d74c6",
+        "tags": [
+          "Пациенты"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "fname": {
+                    "type": "string",
+                    "example": "Андрей",
+                    "description": "Имя *"
+                  },
+                  "mname": {
+                    "type": "string",
+                    "example": "Васильевич"
+                  },
+                  "lname": {
+                    "type": "string",
+                    "required": true,
+                    "example": "Петров"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+77017777777"
+                  },
+                  "phone2": {
+                    "type": "string",
+                    "example": "+77017777777",
+                    "description": "Дополнительный телефон"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "example": "female",
+                    "description": "male / female"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "example": "2002-02-16",
+                    "description": "Формат YYYY-MM-DD (напр, 1985-03-16)"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "ул Чехова, 12"
+                  },
+                  "card": {
+                    "type": "string",
+                    "example": "11223344",
+                    "description": "Номер карточки"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@mail.com"
+                  },
+                  "snils": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "iin": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "passport": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "passport_series": {
+                    "type": "string",
+                    "example": "45 10"
+                  },
+                  "passport_given_by": {
+                    "type": "string",
+                    "example": "ОВД района Арбат"
+                  },
+                  "passport_issue_date": {
+                    "type": "string",
+                    "example": "2022-05-16"
+                  },
+                  "passport_dep_code": {
+                    "type": "string",
+                    "example": "770-001"
+                  },
+                  "source": {
+                    "type": "integer",
+                    "example": 2,
+                    "description": "Id источника пациента (получается из справочника источников)"
+                  },
+                  "url": {
+                    "type": "string",
+                    "example": "https://google.com"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Самый лучший пациент"
+                  },
+                  "representative_passport": {
+                    "type": "string",
+                    "example": "N12345678",
+                    "description": "Реквизиты документа, удостоверяющего право представлять пациента"
+                  },
+                  "representative_fio": {
+                    "type": "string",
+                    "example": "Лихарев Иван"
+                  },
+                  "representative_phone": {
+                    "type": "string",
+                    "example": "+77017777777"
+                  },
+                  "representative_address": {
+                    "type": "string",
+                    "example": "ул Чехова, 12"
+                  },
+                  "send_marketing": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "Отправлять маркетинговые рассылки"
+                  },
+                  "send_notifications": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Отправлять уведомления"
+                  },
+                  "doctor_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id доктора"
+                  },
+                  "curator_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id куратора"
+                  },
+                  "extra_fields": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ExtraField"
+                    },
+                    "description": "Массив дополнительных полей"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{id}": {
+      "get": {
+        "summary": "Получение пациента по id",
+        "tags": [
+          "Пациенты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id пациента",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "operationId": "c1219ebce4ab21eafeee9f20786d74c7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Пациент не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Редактирование пациента",
+        "operationId": "c17a9bbcac3ba7eb8bfe3320786d74c6",
+        "tags": [
+          "Пациенты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id пациента",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "fname": {
+                    "type": "string",
+                    "example": "Андрей",
+                    "description": "Имя *"
+                  },
+                  "mname": {
+                    "type": "string",
+                    "example": "Васильевич"
+                  },
+                  "lname": {
+                    "type": "string",
+                    "required": true,
+                    "example": "Петров"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+77017777777"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "example": "female",
+                    "description": "male / female"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "example": "2002-02-16",
+                    "description": "Формат YYYY-MM-DD (напр, 1985-03-16)"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "ул Чехова, 12"
+                  },
+                  "card": {
+                    "type": "string",
+                    "example": "11223344",
+                    "description": "Номер карточки"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@mail.com"
+                  },
+                  "snils": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "iin": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "passport": {
+                    "type": "string",
+                    "example": "11223344"
+                  },
+                  "source": {
+                    "type": "integer",
+                    "example": 2,
+                    "description": "Id источника пациента (получается из справочника источников)"
+                  },
+                  "url": {
+                    "type": "string",
+                    "example": "https://google.com"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Самый лучший пациент"
+                  },
+                  "representative_passport": {
+                    "type": "string",
+                    "example": "N12345678",
+                    "description": "Реквизиты документа, удостоверяющего право представлять пациента"
+                  },
+                  "representative_fio": {
+                    "type": "string",
+                    "example": "Лихарев Иван"
+                  },
+                  "representative_phone": {
+                    "type": "string",
+                    "example": "+77017777777"
+                  },
+                  "representative_address": {
+                    "type": "string",
+                    "example": "ул Чехова, 12"
+                  },
+                  "send_marketing": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "Отправлять маркетинговые рассылки"
+                  },
+                  "send_notifications": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Отправлять уведомления"
+                  },
+                  "doctor_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id доктора"
+                  },
+                  "curator_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id куратора"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Patient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{id}/deposit/transactions": {
+      "get": {
+        "summary": "Получение транзакций по депозиту пациента",
+        "tags": [
+          "Пациенты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id пациента",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "branch_id",
+            "in": "query",
+            "description": "Id филиала (опционально)",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "deposit_account_id",
+            "in": "query",
+            "description": "Id депозитного счета (опционально)",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Дата от (в формате YYYY-MM-DD)",
+            "example": "2024-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Дата до (в формате YYYY-MM-DD)",
+            "example": "2024-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "c1219eb22dab21edfe1e9f11186d74c7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepositTransaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doctors": {
+      "get": {
+        "summary": "Получение списка докторов",
+        "operationId": "c1219ebce4ab21eafeсe6f21786d74c6",
+        "tags": [
+          "Доктора"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные пользователи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Doctor"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/doctors/{id}": {
+      "get": {
+        "summary": "Получение доктора по id",
+        "tags": [
+          "Доктора"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id доктора",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "operationId": "c1512ebae4ab21eafeee9f20786d74c7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Doctor"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Доктор не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schedule": {
+      "get": {
+        "summary": "Получение расписания докторов",
+        "operationId": "b1782e1ce4a356aafeee6a55a86d74c6",
+        "description": "Стоит ограничение на кол-во результатов. Запрос должен быть максимально точным по задаваемым условиям (по нужным докторам / датам / филиалам)",
+        "tags": [
+          "Доктора"
+        ],
+        "parameters": [
+          {
+            "name": "doctor_id",
+            "in": "query",
+            "description": "Id доктора",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "branch_id",
+            "in": "query",
+            "description": "Id филиала",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Дата от (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Дата до (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScheduleInterval"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/administrators": {
+      "get": {
+        "summary": "Получение списка администраторов",
+        "operationId": "c1215ebae4ab23eaf3сe6f66586d74c6",
+        "tags": [
+          "Персонал"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные пользователи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Administrator"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/curators": {
+      "get": {
+        "summary": "Получение списка кураторов",
+        "operationId": "c1215222eebc23e2f2сe1f69586d74c6",
+        "tags": [
+          "Персонал"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные пользователи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Curator"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/assistants": {
+      "get": {
+        "summary": "Получение списка ассистентов",
+        "operationId": "b5b5c6702aec23e2f2сeef695e6d74c6",
+        "tags": [
+          "Персонал"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены удаленные пользователи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Assistant"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/visits": {
+      "get": {
+        "summary": "Получение списка визитов",
+        "operationId": "b1782ebce4ab21eafeсe6f21786d74c6",
+        "tags": [
+          "Визиты"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "doctor_id",
+            "in": "query",
+            "description": "Id доктора",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "patient_id",
+            "in": "query",
+            "description": "Id пациента",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "chair_id",
+            "in": "query",
+            "description": "Id кресла",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "branch_id",
+            "in": "query",
+            "description": "Id филиала",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Дата от (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Дата до (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modified_after",
+            "in": "query",
+            "description": "Условие выдачи только тех записей, данные по которым обновлены после указанной даты (часовой пояс клиники)",
+            "example": "2023-04-16 12:30:00",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Id запрашиваемых визитов, через запятую",
+            "example": "1,2,3",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "with_deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то в выдачу будут включены отмененные визиты",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detailed",
+            "in": "query",
+            "description": "Если параметр равен 1, то список будет выгружен с дополнительной информацией по цене визита и зубам с соответствующими услугами / диагнозами",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Visit"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Создание визита",
+        "operationId": "b6690eaae4a221edfeсe6f21786d74c6",
+        "tags": [
+          "Визиты"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "patient_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id пациента *"
+                  },
+                  "doctor_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id доктора *"
+                  },
+                  "assistant_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id ассистента"
+                  },
+                  "chair_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": false,
+                    "description": "Id кресла"
+                  },
+                  "start": {
+                    "type": "string",
+                    "example": "2023-06-12 12:00:00",
+                    "required": true,
+                    "description": "Начало визита *"
+                  },
+                  "end": {
+                    "type": "string",
+                    "example": "2023-06-12 13:00:00",
+                    "required": true,
+                    "description": "Окончание визита *"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Диагностика",
+                    "required": false,
+                    "description": "Описание визита"
+                  },
+                  "status_id": {
+                    "type": "integer",
+                    "example": "Статус визита",
+                    "required": false,
+                    "description": "Список доступных значений получается из запроса статусов визита"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Тип визита"
+                  },
+                  "complaints": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Жалобы"
+                  },
+                  "inspection": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Внешний осмотр"
+                  },
+                  "objectively": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Объективно"
+                  },
+                  "subjectively": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Субъективно"
+                  },
+                  "bite": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Прикус"
+                  },
+                  "description_doctor": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Описание визита врачом"
+                  },
+                  "disease_history": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Анамнез заболевания"
+                  },
+                  "life_history": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Анамнез жизни"
+                  },
+                  "examinations_data": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Данные рентгеновских, лабораторных исследований"
+                  },
+                  "include_in_form_043": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Включить в форму 043"
+                  },
+                  "complex_id": {
+                    "type": "integer",
+                    "required": false,
+                    "description": "Id комплекса из плана лечения"
+                  },
+                  "teeth": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ToothRequest"
+                    },
+                    "description": "Массив зубов с услугами и диагнозами"
+                  },
+                  "extra_fields": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ExtraField"
+                    },
+                    "description": "Массив дополнительных полей"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/visits/{id}": {
+      "get": {
+        "summary": "Получение визита по id",
+        "description": "В данном запросе также выдается дополнительная информация по цене визита и зубам с соответствующими услугами / диагнозами",
+        "tags": [
+          "Визиты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id визита",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "operationId": "c1512ebae6ab92defeee9f20786d74c7",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Визит не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Редактирование визита",
+        "operationId": "c17a9bbcac3ba7abbb4e7121700d74c6",
+        "tags": [
+          "Визиты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id визита",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "patient_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id пациента *"
+                  },
+                  "doctor_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id доктора *"
+                  },
+                  "assistant_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "Id ассистента"
+                  },
+                  "chair_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": false,
+                    "description": "Id кресла"
+                  },
+                  "start": {
+                    "type": "string",
+                    "example": "2023-06-12 12:00:00",
+                    "required": true,
+                    "description": "Начало визита *"
+                  },
+                  "end": {
+                    "type": "string",
+                    "example": "2023-06-12 13:00:00",
+                    "required": true,
+                    "description": "Окончание визита *"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Диагностика",
+                    "required": false,
+                    "description": "Описание визита"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Тип визита"
+                  },
+                  "complaints": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Жалобы"
+                  },
+                  "inspection": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Внешний осмотр"
+                  },
+                  "objectively": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Объективно"
+                  },
+                  "subjectively": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Субъективно"
+                  },
+                  "bite": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Прикус"
+                  },
+                  "description_doctor": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Описание визита врачом"
+                  },
+                  "disease_history": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Анамнез заболевания"
+                  },
+                  "life_history": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Анамнез жизни"
+                  },
+                  "examinations_data": {
+                    "type": "string",
+                    "required": false,
+                    "description": "Данные рентгеновских, лабораторных исследований"
+                  },
+                  "include_in_form_043": {
+                    "type": "boolean",
+                    "required": false,
+                    "description": "Включить в форму 043"
+                  },
+                  "complex_id": {
+                    "type": "integer",
+                    "required": false,
+                    "description": "Id комплекса из плана лечения"
+                  },
+                  "teeth": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ToothRequest"
+                    },
+                    "description": "Массив зубов с услугами и диагнозами"
+                  },
+                  "status_id": {
+                    "type": "integer",
+                    "example": "Статус визита",
+                    "required": false,
+                    "description": "Список доступных значений получается из запроса статусов визита"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/visits/{id}/cancel": {
+      "post": {
+        "summary": "Отмена визита",
+        "description": "Отмененный визит попадает в отчет по отмененным визитам.",
+        "operationId": "a31901aae2a72d4df9сe6f21c87de4c6",
+        "tags": [
+          "Визиты"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id визита",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "example": "Пациент заболел",
+                    "required": true,
+                    "description": "Причина отмены"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments": {
+      "get": {
+        "summary": "Получение списка оплат",
+        "operationId": "b1782ebce4ab25aafaae6a21a86d74c6",
+        "tags": [
+          "Платежи"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Номер страницы",
+            "example": 2,
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Кол-во записей на страницу (максимум 200, по умолчанию 20)",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "visit_id",
+            "in": "query",
+            "description": "Id визита",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "patient_id",
+            "in": "query",
+            "description": "Id пациента",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Дата от (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Дата до (в формате YYYY-MM-DD)",
+            "example": "2022-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modified_after",
+            "in": "query",
+            "description": "Условие выдачи только тех платежей, данные по которым обновлены после указанной даты (часовой пояс клиники)",
+            "example": "2023-04-16 12:30:00",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то будут выдаваться удаленные платежи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "$ref": "#/components/schemas/PaginatedMetaData"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Payment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deposits/payments": {
+      "get": {
+        "summary": "Получение списка транзакций по депозитам",
+        "operationId": "a5552eacea5555aafaae6a21a86d74c6",
+        "tags": [
+          "Платежи"
+        ],
+        "parameters": [
+          {
+            "name": "date_from",
+            "in": "query",
+            "description": "Дата от (в формате YYYY-MM-DD)",
+            "example": "2024-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "description": "Дата до (в формате YYYY-MM-DD)",
+            "example": "2024-02-16",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "description": "Если параметр равен 1, то будут выдаваться удаленные платежи",
+            "example": "1",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepositTransaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bonus": {
+      "post": {
+        "summary": "Начисление / списание бонуса",
+        "operationId": "b6690e1224a554bdfebe6fa17aad74c3",
+        "tags": [
+          "Платежи"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "patient_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id пациента *"
+                  },
+                  "value": {
+                    "type": "number",
+                    "example": -2000,
+                    "required": true,
+                    "description": "Сумма *. Может быть как положительная (начисление), так и отрицательная (списание)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BonusTransaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deposit": {
+      "post": {
+        "summary": "Начисление / списание депозита",
+        "operationId": "b6690e1e74a543bdfeb46fa14ddd74c3",
+        "tags": [
+          "Платежи"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "branch_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id филиала *"
+                  },
+                  "patient_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id пациента *"
+                  },
+                  "deposit_account_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "required": true,
+                    "description": "Id депозитного счета"
+                  },
+                  "value": {
+                    "type": "number",
+                    "example": -2000,
+                    "required": true,
+                    "description": "Сумма *. Может быть как положительная (начисление), так и отрицательная (списание)"
+                  },
+                  "form": {
+                    "type": "number",
+                    "example": 1,
+                    "required": false,
+                    "description": "Метод оплаты (если не указан, то будет учтен как наличные)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DepositTransaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/leads": {
+      "post": {
+        "summary": "Создание CRM заявки",
+        "operationId": "aa1666abca2e31eb3aeb312b716d74c6",
+        "tags": [
+          "CRM"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "fname": {
+                    "type": "string",
+                    "example": "Андрей",
+                    "required": true,
+                    "description": "Имя *"
+                  },
+                  "lname": {
+                    "type": "string",
+                    "example": "Петров",
+                    "description": "Фамилия"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+77017777777",
+                    "description": "Телефон *"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "example@mail.com",
+                    "description": "Email"
+                  },
+                  "source_id": {
+                    "type": "integer",
+                    "example": 2,
+                    "description": "Id источника заявки (получается из справочника источников)"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "example": "Причина обращения",
+                    "description": "Причина обращения"
+                  },
+                  "comment": {
+                    "type": "string",
+                    "example": "Комментарий",
+                    "description": "Комментарий"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lead"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaginatedMetaData": {
+        "properties": {
+          "current_page": {
+            "type": "integer",
+            "example": 1
+          },
+          "last_page": {
+            "type": "integer",
+            "example": 3
+          },
+          "per_page": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 42
+          }
+        }
+      },
+      "Patient": {
+        "title": "Пациент",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "phone_2": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "gender": {
+            "type": "string",
+            "example": "female",
+            "description": "male / female"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "example": "2002-02-16"
+          },
+          "address": {
+            "type": "string",
+            "example": "ул Чехова, 12"
+          },
+          "card": {
+            "type": "string",
+            "example": "11223344"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "snils": {
+            "type": "string",
+            "example": "11223344"
+          },
+          "iin": {
+            "type": "string",
+            "example": "11223344"
+          },
+          "passport": {
+            "type": "string",
+            "example": "11223344",
+            "description": "Номер документа"
+          },
+          "passport_series": {
+            "type": "string",
+            "example": "25"
+          },
+          "passport_issue_date": {
+            "type": "string",
+            "example": "2023-07-17"
+          },
+          "passport_given_by": {
+            "type": "string",
+            "example": "МВД РФ"
+          },
+          "passport_dep_code": {
+            "type": "string",
+            "example": "20"
+          },
+          "representative_fio": {
+            "type": "string",
+            "example": "Лихарев Иван"
+          },
+          "representative_phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "representative_address": {
+            "type": "string",
+            "example": "ул Чехова, 12"
+          },
+          "representative_passport": {
+            "type": "string",
+            "example": "11223344"
+          },
+          "discount": {
+            "type": "number",
+            "example": 10
+          },
+          "status": {
+            "type": "string",
+            "example": "regular_client / first_visit"
+          },
+          "source": {
+            "type": "string",
+            "example": "Instagram"
+          },
+          "patient_condition": {
+            "$ref": "#/components/schemas/PatientCondition"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://google.com"
+          },
+          "description": {
+            "type": "string",
+            "example": "Самый лучший пациент"
+          },
+          "activity_status": {
+            "type": "string",
+            "example": "new / active / passive / lost"
+          },
+          "deposit": {
+            "type": "number",
+            "example": 5000
+          },
+          "deposit_details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DepositDetail"
+            }
+          },
+          "bonus": {
+            "type": "number",
+            "example": 10000
+          },
+          "doctor": {
+            "$ref": "#/components/schemas/Doctor"
+          },
+          "curator": {
+            "$ref": "#/components/schemas/Curator"
+          },
+          "curator_id": {
+            "type": "number",
+            "example": 123,
+            "description": "Id куратора"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientTag"
+            }
+          },
+          "send_marketing": {
+            "type": "boolean",
+            "example": false,
+            "description": "Отправлять маркетинговые рассылки"
+          },
+          "send_notifications": {
+            "type": "boolean",
+            "example": true,
+            "description": "Отправлять уведомления"
+          },
+          "extra_fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExtraField"
+            }
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "PatientTag": {
+        "title": "Тэг",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Аллергик"
+          },
+          "color": {
+            "type": "string",
+            "example": "#f45003"
+          }
+        }
+      },
+      "PatientCondition": {
+        "title": "Состояние пациента",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Аллергик"
+          }
+        }
+      },
+      "SimpleUser": {
+        "title": "Пользователь",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          }
+        }
+      },
+      "Doctor": {
+        "title": "Врач",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "phone_2": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "gender": {
+            "type": "string",
+            "example": "female",
+            "description": "male / female"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "example": "2002-02-16"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "percent": {
+            "type": "number",
+            "example": 20
+          },
+          "rate": {
+            "type": "number",
+            "example": 100000
+          },
+          "inn": {
+            "type": "string",
+            "example": "775598987121",
+            "description": "ИНН"
+          },
+          "snils": {
+            "type": "string",
+            "example": "92937926772",
+            "description": "СНИЛС"
+          },
+          "color": {
+            "type": "string",
+            "example": "#ff4500",
+            "description": "HEX цвет"
+          },
+          "chairs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Chair"
+            }
+          },
+          "branches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Branch"
+            }
+          },
+          "professions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profession"
+            }
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "Administrator": {
+        "title": "Администратор",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "phone_2": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "gender": {
+            "type": "string",
+            "example": "female",
+            "description": "male / female"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "example": "2002-02-16"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "inn": {
+            "type": "string",
+            "example": "775598987121",
+            "description": "ИНН"
+          },
+          "snils": {
+            "type": "string",
+            "example": "92937926772",
+            "description": "СНИЛС"
+          },
+          "custom_role": {
+            "$ref": "#/components/schemas/CustomRole"
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "Curator": {
+        "title": "Куратор",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "phone_2": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "gender": {
+            "type": "string",
+            "example": "female",
+            "description": "male / female"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "example": "2002-02-16"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "inn": {
+            "type": "string",
+            "example": "775598987121",
+            "description": "ИНН"
+          },
+          "snils": {
+            "type": "string",
+            "example": "92937926772",
+            "description": "СНИЛС"
+          },
+          "custom_role": {
+            "$ref": "#/components/schemas/CustomRole"
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "Assistant": {
+        "title": "Ассистент",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "fname": {
+            "type": "string",
+            "example": "Андрей"
+          },
+          "mname": {
+            "type": "string",
+            "example": "Васильевич"
+          },
+          "lname": {
+            "type": "string",
+            "example": "Петров"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "phone_2": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "gender": {
+            "type": "string",
+            "example": "female",
+            "description": "male / female"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "example": "2002-02-16"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "inn": {
+            "type": "string",
+            "example": "775598987121",
+            "description": "ИНН"
+          },
+          "snils": {
+            "type": "string",
+            "example": "92937926772",
+            "description": "СНИЛС"
+          },
+          "custom_role": {
+            "$ref": "#/components/schemas/CustomRole"
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "Branch": {
+        "title": "Филиал",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Филиал №3"
+          },
+          "address": {
+            "type": "string",
+            "example": "ул. Чехова, 12"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          }
+        }
+      },
+      "Chair": {
+        "title": "Кресло",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Кресло №1"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Service": {
+        "title": "Услуга",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Анестезия инъекционная"
+          },
+          "code": {
+            "type": "string",
+            "example": "A-02"
+          },
+          "price": {
+            "type": "number",
+            "example": 35000
+          },
+          "price_id": {
+            "type": "number",
+            "example": 1
+          },
+          "deleted": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "Price": {
+        "title": "Прайс",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Основной"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Profession": {
+        "title": "Профессия",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Ортодонт"
+          }
+        }
+      },
+      "Visit": {
+        "title": "Визит",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "start": {
+            "type": "string",
+            "example": "2022-02-16 12:00:00"
+          },
+          "end": {
+            "type": "string",
+            "example": "2022-02-16 13:00:00"
+          },
+          "doctor": {
+            "$ref": "#/components/schemas/SimpleUser"
+          },
+          "patient": {
+            "$ref": "#/components/schemas/SimpleUser"
+          },
+          "assistant": {
+            "$ref": "#/components/schemas/SimpleUser"
+          },
+          "chair": {
+            "$ref": "#/components/schemas/Chair"
+          },
+          "price": {
+            "type": "number",
+            "example": 10000
+          },
+          "type": {
+            "type": "string",
+            "example": "treatment",
+            "description": "treatment / consultation / checkup / diagnostics / block / curation / hygiene"
+          },
+          "status": {
+            "type": "string",
+            "example": "confirmed",
+            "description": "'not_confirmed' / 'confirmed' / 'came' / 'in_chair' / 'did_not_come'"
+          },
+          "description": {
+            "type": "string",
+            "example": "Описание визита"
+          },
+          "complaints": {
+            "type": "string",
+            "description": "Жалобы"
+          },
+          "inspection": {
+            "type": "string",
+            "description": "Внешний осмотр"
+          },
+          "objectively": {
+            "type": "string",
+            "description": "Объективно"
+          },
+          "subjectively": {
+            "type": "string",
+            "description": "Субъективно"
+          },
+          "bite": {
+            "type": "string",
+            "description": "Прикус"
+          },
+          "description_doctor": {
+            "type": "string",
+            "description": "Описание визита врачом"
+          },
+          "disease_history": {
+            "type": "string",
+            "description": "Анамнез заболевания"
+          },
+          "life_history": {
+            "type": "string",
+            "description": "Анамнез жизни"
+          },
+          "examinations_data": {
+            "type": "string",
+            "description": "Данные рентгеновских, лабораторных исследований"
+          },
+          "include_in_form_043": {
+            "type": "boolean",
+            "description": "Включить в форму 043"
+          },
+          "branch_id": {
+            "type": "number",
+            "example": 1
+          },
+          "complex_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id комплекса плана лечения"
+          },
+          "paid": {
+            "type": "boolean",
+            "example": false
+          },
+          "is_cancelled": {
+            "type": "boolean",
+            "example": false
+          },
+          "cancel_reason": {
+            "type": "string",
+            "example": "Опоздал из-за пробок",
+            "description": "Причина отмены"
+          },
+          "source": {
+            "type": "string",
+            "example": "Рекомендация",
+            "description": "Источник записи"
+          },
+          "teeth": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tooth"
+            }
+          },
+          "extra_fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExtraField"
+            }
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/SimpleUser",
+            "description": "Пользователь, создавший визит"
+          },
+          "last_updated_by": {
+            "$ref": "#/components/schemas/SimpleUser",
+            "description": "Пользователь, последним изменивший визит"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "ExtraField": {
+        "title": "Дополнительное поле",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "amoCRMId"
+          },
+          "value": {
+            "type": "string",
+            "example": "123456789"
+          }
+        }
+      },
+      "CustomRole": {
+        "title": "Дополнительная роль",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Помощник"
+          }
+        }
+      },
+      "Tooth": {
+        "title": "Зуб",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "41"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToothService"
+            }
+          },
+          "diagnoses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToothDiagnose"
+            }
+          }
+        }
+      },
+      "ToothRequest": {
+        "title": "Зуб (запрос внутри создания/редактирования визита)",
+        "properties": {
+          "tooth": {
+            "type": "string",
+            "example": "12"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "example": 1,
+                  "description": "Id услуги"
+                },
+                {
+                  "type": "object",
+                  "description": "Объект услуги (если надо передать нестандартную цену)",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Id услуги",
+                      "example": 1
+                    },
+                    "price": {
+                      "type": "number",
+                      "description": "Стоимость услуги",
+                      "example": 100
+                    },
+                    "discount": {
+                      "type": "number",
+                      "description": "Дисконт, процент от услуги - значение должно быть integer от 0 до 100",
+                      "example": 10
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "price"
+                  ]
+                }
+              ]
+            }
+          },
+          "diagnoses": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "example": 1,
+              "description": "Id диагноза"
+            }
+          }
+        }
+      },
+      "ToothService": {
+        "title": "Зуб",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Анестезия"
+          },
+          "code": {
+            "type": "string",
+            "example": "A-02"
+          },
+          "final_price": {
+            "type": "number",
+            "example": 9000
+          },
+          "price_original": {
+            "type": "number",
+            "example": 10000
+          },
+          "discount": {
+            "type": "number",
+            "example": 10
+          },
+          "tooth_service_id": {
+            "type": "number",
+            "example": 12345,
+            "description": "Id связки между зубом визита и услугой"
+          }
+        }
+      },
+      "ToothDiagnose": {
+        "title": "Диагноз",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Анкилоз"
+          },
+          "code": {
+            "type": "string",
+            "example": "K05"
+          }
+        }
+      },
+      "Source": {
+        "title": "Источник пациента",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Рекомендация"
+          }
+        }
+      },
+      "DepositAccount": {
+        "title": "Тип депозитного счета",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Рекомендация"
+          },
+          "is_default": {
+            "type": "boolean",
+            "example": "Используется ли по умолчанию"
+          }
+        }
+      },
+      "PayMethod": {
+        "title": "Метод оплаты",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Наличные"
+          }
+        }
+      },
+      "DepositDetail": {
+        "title": "Детали депозита",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "example": 100
+          },
+          "deposit_account": {
+            "$ref": "#/components/schemas/DepositAccount"
+          }
+        }
+      },
+      "RecordStatus": {
+        "title": "Статус визита",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Не подтверждена"
+          }
+        }
+      },
+      "Payment": {
+        "title": "Платеж",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "sum": {
+            "type": "number",
+            "example": 12000
+          },
+          "bonus": {
+            "type": "number",
+            "example": 1000,
+            "description": "Сколько было оплачено бонусами"
+          },
+          "date": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "client_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "visit_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "payment_type": {
+            "type": "string",
+            "example": "cash"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          },
+          "deleted_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "ScheduleInterval": {
+        "title": "Расписание доктора",
+        "properties": {
+          "doctor_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "chair_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "branch_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "day": {
+            "type": "string",
+            "example": "2023-04-22"
+          },
+          "time_from": {
+            "type": "string",
+            "example": "09:00:00"
+          },
+          "time_to": {
+            "type": "string",
+            "example": "18:00:00"
+          },
+          "minutes": {
+            "type": "integer",
+            "example": 600
+          }
+        }
+      },
+      "BonusTransaction": {
+        "title": "Начисление / списание бонуса",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "patient_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "branch_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "value": {
+            "type": "number",
+            "example": -2000
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-23T14:03:22.000000Z"
+          }
+        }
+      },
+      "DepositTransaction": {
+        "title": "Начисление / списание депозита",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "patient_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "deposit_account_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "branch_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "visit_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "value": {
+            "type": "number",
+            "example": 2000
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-23T14:03:22.000000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "example": "2023-04-22 12:05:00"
+          }
+        }
+      },
+      "Lead": {
+        "title": "CRM заявка",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Николай Петрушкин"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+77017777777"
+          },
+          "email": {
+            "type": "string",
+            "example": "example@mail.com"
+          },
+          "comment": {
+            "type": "string",
+            "example": "Комментарий"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Причина обращения"
+          },
+          "source": {
+            "type": "string",
+            "example": "Источник"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2023-04-23T14:03:22.000000Z"
+          }
+        }
+      },
+      "Error": {
+        "title": "Ошибка",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Неверный формат данных"
+          }
+        },
+        "type": "object"
+      },
+      "NotFoundError": {
+        "title": "Ошибка",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Запись не найдена"
+          }
+        },
+        "type": "object"
+      },
+      "UnauthorizedError": {
+        "title": "Ошибка",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Неверные логин / пароль"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "BearerToken": {
+        "type": "http",
+        "description": "Bearer token, который получается после авторизации",
+        "scheme": "bearer",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerToken": []
+    }
+  ]
+}

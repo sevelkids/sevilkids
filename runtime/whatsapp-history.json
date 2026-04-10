@@ -1,0 +1,119 @@
+{
+  "generatedAt": "2026-04-10T14:08:46.853Z",
+  "items": [
+    {
+      "id": "712a64de-f667-4c67-9e47-c30af49e80bc",
+      "normalizedPhone": "77055038105",
+      "direction": "IN",
+      "source": "CLIENT",
+      "text": "Привет",
+      "payload": {
+        "from": "131439303631047@lid",
+        "author": null
+      },
+      "whatsappMessageId": "false_131439303631047@lid_3AAE4F18D14FDD99548B",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:20.264Z",
+      "sentAt": null,
+      "deliveredAt": "2026-04-10T14:08:20.264Z",
+      "failedAt": null
+    },
+    {
+      "id": "c4027bd9-e073-4f32-b36d-843e51f40003",
+      "normalizedPhone": "77055038105",
+      "direction": "OUT",
+      "source": "BOT",
+      "text": "Здравствуйте! Я бот Жансая клиники Sevil Kids.\nПомогу вам с записью на приём.\nСейчас у нас доступны консультация и чистка.\nЧто вас интересует?",
+      "payload": {
+        "sourceChannel": "embedded-whatsapp-client",
+        "resolvedTarget": "131439303631047@lid"
+      },
+      "whatsappMessageId": "true_131439303631047@lid_3EB00B053986FD949A79DD",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:20.266Z",
+      "sentAt": "2026-04-10T14:08:20.692Z",
+      "deliveredAt": "2026-04-10T14:08:20.693Z",
+      "failedAt": null
+    },
+    {
+      "id": "afa16adf-59a6-479f-b990-81d1fa8f3188",
+      "normalizedPhone": "77055038105",
+      "direction": "OUT",
+      "source": "OPERATOR",
+      "text": "тестируем отправку",
+      "payload": {
+        "sourceChannel": "chat_console",
+        "resolvedTarget": "131439303631047@lid"
+      },
+      "whatsappMessageId": "true_131439303631047@lid_3EB01FEB207E08A1D2F9FA",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:29.776Z",
+      "sentAt": "2026-04-10T14:08:29.797Z",
+      "deliveredAt": "2026-04-10T14:08:29.797Z",
+      "failedAt": null
+    },
+    {
+      "id": "1594b228-ab15-4ea0-a713-2cc9ed3c2032",
+      "normalizedPhone": "77055038105",
+      "direction": "IN",
+      "source": "CLIENT",
+      "text": "Бот выключен",
+      "payload": {
+        "from": "131439303631047@lid",
+        "author": null
+      },
+      "whatsappMessageId": "false_131439303631047@lid_3A3AA2F39796275630E1",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:38.461Z",
+      "sentAt": null,
+      "deliveredAt": "2026-04-10T14:08:38.461Z",
+      "failedAt": null
+    },
+    {
+      "id": "80ffb294-f34b-42a5-8900-f14c2ca764e7",
+      "normalizedPhone": "77055038105",
+      "direction": "IN",
+      "source": "CLIENT",
+      "text": "Бот включен",
+      "payload": {
+        "from": "131439303631047@lid",
+        "author": null
+      },
+      "whatsappMessageId": "false_131439303631047@lid_3AAB3E107DC4A0B88133",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:46.451Z",
+      "sentAt": null,
+      "deliveredAt": "2026-04-10T14:08:46.451Z",
+      "failedAt": null
+    },
+    {
+      "id": "37a22007-d1e1-492e-a37f-5270955acd76",
+      "normalizedPhone": "77055038105",
+      "direction": "OUT",
+      "source": "BOT",
+      "text": "Сейчас у нас доступны:\n• консультация\n• чистка\n\nЧто вас интересует?",
+      "payload": {
+        "sourceChannel": "embedded-whatsapp-client",
+        "resolvedTarget": "131439303631047@lid"
+      },
+      "whatsappMessageId": "true_131439303631047@lid_3EB08E9764662D348E686D",
+      "bitrixMessageId": null,
+      "deliveryStatus": "DELIVERED",
+      "errorMessage": null,
+      "createdAt": "2026-04-10T14:08:46.453Z",
+      "sentAt": "2026-04-10T14:08:46.852Z",
+      "deliveredAt": "2026-04-10T14:08:46.853Z",
+      "failedAt": null
+    }
+  ]
+}

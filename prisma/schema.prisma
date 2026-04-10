@@ -1,0 +1,192 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ChatMode {
+  AUTO
+  HUMAN
+  ASSIST
+  WAITING_OPERATOR
+}
+
+enum BookingDraftStatus {
+  COLLECTING
+  READY_FOR_OPERATOR
+  PAYMENT_PENDING
+  WAITING_RECEIPT
+  PAID
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+}
+
+enum PaymentInvoiceStatus {
+  PENDING
+  WAITING_CONFIRMATION
+  PAID
+  CANCELLED
+  FAILED
+  EXPIRED
+}
+
+enum MessageDirection {
+  IN
+  OUT
+}
+
+enum MessageSource {
+  CLIENT
+  BOT
+  OPERATOR
+  SYSTEM
+}
+
+enum MessageDeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  SKIPPED
+}
+
+model ChatSession {
+  id                 String           @id @default(cuid())
+  phone              String
+  normalizedPhone    String           @unique
+  whatsappChatId     String?
+  externalChatId     String?
+  currentMode        ChatMode         @default(AUTO)
+  currentStep        String?
+  state              Json?
+  assignedOperatorId String?
+  bitrixLineId       String?
+  bitrixChatId       String?
+  bitrixDialogId     String?
+  bitrixConnectorId  String?
+  botEnabled         Boolean          @default(true)
+  allowBotReplies    Boolean          @default(true)
+  handoffRequestedAt DateTime?
+  humanTakenAt       DateTime?
+  handoffReason      String?
+  lastIncomingAt     DateTime?
+  lastOutgoingAt     DateTime?
+  metadata           Json?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  bookingDrafts      BookingDraft[]
+  messages           ChatMessageLog[]
+
+  @@index([phone])
+  @@index([whatsappChatId])
+  @@index([currentMode])
+}
+
+model BookingDraft {
+  id                 String             @id @default(cuid())
+  chatSessionId      String
+  patientId          Int?
+  externalPatientRef String?
+  bitrixContactId    Int?
+  requestDealId      Int?
+  visitDealId        Int?
+  selectedService    String?
+  selectedCleaningType String?
+  selectedDoctorId   Int?
+  selectedDate       DateTime?
+  selectedStart      DateTime?
+  selectedEnd        DateTime?
+  price              Int?
+  status             BookingDraftStatus @default(COLLECTING)
+  dentistVisitId     Int?
+  paymentProvider    String?
+  paymentStatus      String?
+  paymentConfirmedAt DateTime?
+  paymentMetadata    Json?
+  expiresAt          DateTime?
+  rawCollectedData   Json?
+  finalizationError  String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  chatSession        ChatSession        @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+  invoices           PaymentInvoice[]
+
+  @@index([chatSessionId, status])
+  @@index([requestDealId])
+  @@index([visitDealId])
+}
+
+model PaymentInvoice {
+  id                   String               @id @default(cuid())
+  bookingDraftId       String
+  provider             String
+  invoiceUrl           String?
+  externalInvoiceId    String?
+  amount               Int?
+  status               PaymentInvoiceStatus @default(PENDING)
+  paidAt               DateTime?
+  receiptMessageId     String?
+  receiptFileReference String?
+  metadata             Json?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  bookingDraft         BookingDraft         @relation(fields: [bookingDraftId], references: [id], onDelete: Cascade)
+
+  @@index([bookingDraftId, status])
+  @@index([externalInvoiceId])
+}
+
+model ChatMessageLog {
+  id              String                @id @default(cuid())
+  chatSessionId   String
+  direction       MessageDirection
+  source          MessageSource
+  whatsappMessageId String?
+  bitrixMessageId String?
+  text            String?
+  payload         Json?
+  deliveryStatus  MessageDeliveryStatus @default(PENDING)
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+  failedAt        DateTime?
+  errorMessage    String?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  chatSession     ChatSession           @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
+  @@index([chatSessionId, createdAt])
+  @@index([deliveryStatus, direction])
+  @@index([whatsappMessageId])
+  @@index([bitrixMessageId])
+}
+
+model BitrixAppInstallation {
+  id                          String   @id @default(cuid())
+  domain                      String   @unique
+  memberId                    String   @unique
+  accessToken                 String
+  refreshToken                String
+  applicationToken            String?
+  expiresIn                   Int?
+  scope                       String?
+  status                      String?
+  clientEndpoint              String?
+  serverEndpoint              String?
+  connectorId                 String?
+  lineId                      String?
+  connectorRegisteredAt       DateTime?
+  connectorRegistrationStatus String?
+  connectorActivatedAt        DateTime?
+  connectorActivationStatus   String?
+  lastError                   String?
+  rawPayload                  Json?
+  installedAt                 DateTime @default(now())
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@index([updatedAt])
+}
