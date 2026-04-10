@@ -1,0 +1,1 @@
+{"version":3,"file":"dentist.config.js","sourceRoot":"","sources":["../../src/config/dentist.config.ts"],"names":[],"mappings":";;;AAAA,+BAA4B;AAEf,QAAA,aAAa,GAAG;IACzB,OAAO,EAAE,SAAG,CAAC,iBAAiB;IAC9B,KAAK,EAAE,SAAG,CAAC,eAAe;IAC1B,QAAQ,EAAE,SAAG,CAAC,kBAAkB;IAChC,eAAe,EAAE,SAAG,CAAC,eAAe;IACpC,sBAAsB,EAAE,SAAG,CAAC,sBAAsB;CACrD,CAAC"}
